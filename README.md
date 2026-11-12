@@ -1,5 +1,6 @@
 
-## DocChat
+# DocChat
+docchat is a chatbot that uses Groq API to answer questions about files.  
 
 DocChat is a simple chatbot created in Python.
 

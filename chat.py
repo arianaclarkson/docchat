@@ -87,7 +87,14 @@ TOOLS = [
 
 
 def get_client():
-    """Create a Groq client only when an API request is needed."""
+    """Create a Groq client only when an API request is needed.
+
+    >>> from unittest.mock import patch
+    >>> with patch("chat.load_dotenv"), patch("chat.Groq") as fake_groq:
+    ...     with patch.dict("os.environ", {"GROQ_API_KEY": "test-key"}):
+    ...         _ = get_client()
+    ...     fake_groq.assert_called_once_with(api_key="test-key")
+    """
     load_dotenv(override=True)
     return Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
