@@ -116,8 +116,20 @@ def execute_tool(name, arguments):
         return f"Tool error: {error}"
 
 
+
 def llm(messages, temperature=1):
-    """Send messages to Groq and return the model's text reply."""
+    """Send messages to Groq and return the model's text reply.
+
+    >>> from unittest.mock import MagicMock, patch
+    >>> fake_client = MagicMock()
+    >>> fake_client.chat.completions.create.return_value.choices[0].message.content = "Hello!"
+    >>> messages = [{"role": "user", "content": "Hi"}]
+    >>> with patch("chat.get_client", return_value=fake_client):
+    ...     llm(messages, temperature=0)
+    'Hello!'
+    >>> fake_client.chat.completions.create.call_args.kwargs["temperature"]
+    0
+    """
     client = get_client()
 
     completion = client.chat.completions.create(
