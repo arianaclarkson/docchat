@@ -116,7 +116,6 @@ def execute_tool(name, arguments):
         return f"Tool error: {error}"
 
 
-
 def llm(messages, temperature=1):
     """Send messages to Groq and return the model's text reply.
 
@@ -317,7 +316,21 @@ class Chat:
 
 
 def repl(chat=None, temperature=0.8):
-    """Run the interactive chatbot until the user exits."""
+    """Run the interactive chatbot until the user exits.
+
+    >>> from unittest.mock import patch
+    >>> from io import StringIO
+    >>> from contextlib import redirect_stdout
+    >>> bot = Chat()
+    >>> output = StringIO()
+    >>> with patch("builtins.input", side_effect=["/calculate 2 + 3", EOFError]), redirect_stdout(output):
+    ...     repl(chat=bot, temperature=0)
+    >>> "5" in output.getvalue()
+    True
+    >>> bot.messages[-1]["content"]
+    'Result of /calculate 2 + 3:\\n5'
+    """
+
     if chat is None:
         chat = Chat(
             system=(
