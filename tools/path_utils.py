@@ -1,4 +1,5 @@
 
+"""Provide utilities for checking whether file paths are safe to access."""
 
 from pathlib import Path
 
@@ -12,7 +13,12 @@ def is_path_safe(path):
     False
     >>> is_path_safe("/etc/passwd")
     False
+    >>> from unittest.mock import patch
+    >>> with patch("tools.path_utils.Path.resolve", side_effect=ValueError):
+    ...     is_path_safe("notes.txt")
+    False
     """
+
     path = Path(path)
     if path.is_absolute() or ".." in path.parts:
         return False
