@@ -58,6 +58,7 @@ def calculate(expression):
     """
 
     def evaluate(node):
+        """Recursively evaluate an arithmetic syntax tree node."""
         if isinstance(node, ast.Constant):
             if type(node.value) in (int, float):
                 return node.value
