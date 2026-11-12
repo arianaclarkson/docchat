@@ -3,7 +3,28 @@
 
 
 def compact(chat):
-    """Replace a conversation with a summary of five lines or less."""
+    """Replace conversation history with a summary of five lines or less.
+
+    >>> from unittest.mock import MagicMock, patch
+    >>> from chat import Chat
+    >>> bot = Chat()
+    >>> bot.messages.append({"role": "user", "content": "Hello"})
+    >>> fake_client = MagicMock()
+    >>> fake_client.chat.completions.create.return_value.choices[0].message.content = "We greeted each other."
+    >>> with patch("chat.get_client", return_value=fake_client):
+    ...     result = compact(bot)
+    >>> result
+    'We greeted each other.'
+    >>> empty_bot = Chat()
+    >>> empty_bot.messages = []
+    >>> compact(empty_bot) == ""
+    True
+    >>> len(bot.messages)
+    1
+    >>> bot.messages[0]["content"]
+    'We greeted each other.'
+    """
+
     if not chat.messages:
         return ""
 
