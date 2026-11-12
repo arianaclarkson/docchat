@@ -358,7 +358,27 @@ def repl(chat=None, temperature=0.8):
 
 
 def main():
-    """Run the chatbot with command-line arguments."""
+    """Run the chatbot with command-line arguments.
+
+    Test one-shot mode without contacting Groq.
+
+    >>> from unittest.mock import patch
+    >>> from io import StringIO
+    >>> from contextlib import redirect_stdout
+    >>> output = StringIO()
+    >>> with patch("sys.argv", ["chat", "Hello"]), patch.object(Chat, "send_message", return_value="Ahoy!"), redirect_stdout(output):
+    ...     main()
+    >>> output.getvalue().strip()
+    'Ahoy!'
+
+    Test interactive debug mode without an API request.
+
+    >>> with patch("sys.argv", ["chat", "--debug"]), patch("chat.repl") as fake_repl:
+    ...     main()
+    ...     fake_repl.assert_called_once()
+    ...     fake_repl.call_args.args[0].debug
+    True
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("message", nargs="?")
     parser.add_argument("--debug", action="store_true")
