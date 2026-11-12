@@ -1,0 +1,9 @@
+[submodule "test_projects/lab-1"]
+	path = test_projects/lab-1
+	url = https://github.com/arianaclarkson/Lab-1.git
+[submodule "test_projects/ebay-scraper"]
+	path = test_projects/ebay-scraper
+	url = https://github.com/arianaclarkson/ebay-scraper.git
+[submodule "test_projects/markdown-compiler"]
+	path = test_projects/markdown-compiler
+	url = https://github.com/arianaclarkson/lab-3.git
